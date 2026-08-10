@@ -2,7 +2,7 @@
 GET http://localhost:3000/
 
 ### Test generate-model ruta
-POST http://localhost:3000/api/generate-model
+POST https://llm-data-modeling-backend.onrender.com/api/generate-model
 Content-Type: application/json
 
 {
