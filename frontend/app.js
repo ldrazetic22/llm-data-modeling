@@ -23,7 +23,7 @@ generateBtn.addEventListener('click', async () => {
   jsonOutput.textContent = '';
 
   try {
-    const response = await fetch('http://localhost:3000/api/generate-model', {
+    const response = await fetch('https://llm-data-modeling-backend.onrender.com/api/generate-model', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ description, provider })
