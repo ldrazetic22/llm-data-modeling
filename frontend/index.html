@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>LLM Data Modeling</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Generator ERA modela</h1>
+    <p>Opišite poslovni slučaj (npr. webshop, knjižnica, rezervacija hotela):</p>
+
+    <textarea id="description" rows="6" placeholder="Web trgovina prodaje proizvode. Kupci mogu napraviti više narudžbi..."></textarea>
+
+    <label for="provider">LLM provider:</label>
+    <select id="provider">
+      <option value="openai">OpenAI (gpt-4o-mini)</option>
+      <option value="claude">Claude (sonnet-5)</option>
+      <option value="gemini">Gemini (3.6-flash)</option>
+    </select>
+
+    <button id="generateBtn">Generiraj model</button>
+
+    <div id="status"></div>
+
+    <h2>ER dijagram</h2>
+    <div id="diagram-container"></div>
+
+    <h2>Sirovi JSON</h2>
+    <pre id="json-output"></pre>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+### Test root ruta
+GET http://localhost:3000/
+
+### Test generate-model ruta
+POST http://localhost:3000/api/generate-model
+Content-Type: application/json
+
+{
+  "description": "Web trgovina prodaje proizvode. Kupci mogu napraviti više narudžbi.",
+  "provider": "claude"
+}
