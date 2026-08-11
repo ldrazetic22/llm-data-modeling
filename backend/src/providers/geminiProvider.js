@@ -3,9 +3,6 @@ const systemPrompt = require('../prompts/systemPrompt');
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-// Gemini koristi pojednostavljeni OpenAPI-stil sheme - bez "additionalProperties"
-// i bez nekih strict-mode ključnih riječi koje OpenAI podržava. Zato definiramo
-// posebnu verziju sheme ovdje, umjesto da re-koristimo modelSchema.js 1:1.
 const geminiResponseSchema = {
   type: "object",
   properties: {
@@ -54,11 +51,6 @@ const geminiResponseSchema = {
   required: ["entities", "relationships"]
 };
 
-/**
- * Generira ERA model iz tekstualnog opisa poslovnog slučaja koristeći Gemini.
- * @param {string} description - tekstualni opis poslovnog slučaja
- * @returns {Promise<object>} - parsirani ERA model (entities, relationships)
- */
 async function generateModel(description) {
   const response = await ai.models.generateContent({
     model: "gemini-3.6-flash",

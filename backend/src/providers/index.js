@@ -8,12 +8,6 @@ const providers = {
   gemini: geminiProvider
 };
 
-/**
- * Generira ERA model koristeći odabrani provider.
- * @param {string} providerName - "openai" | "claude" | "gemini"
- * @param {string} description - tekstualni opis poslovnog slučaja
- * @returns {Promise<object>} - parsirani ERA model
- */
 async function generateModel(providerName, description) {
   const provider = providers[providerName];
 

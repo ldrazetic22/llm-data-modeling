@@ -11,7 +11,7 @@ router.post('/generate-model', async (req, res) => {
     return res.status(400).json({ error: 'Nedostaje opis poslovnog slučaja (description).' });
   }
 
-  const selectedProvider = provider || 'openai'; // openai kao default ako nije navedeno
+  const selectedProvider = provider || 'openai'; // openai je default opcija
 
   try {
     const model = await generateModel(selectedProvider, description);

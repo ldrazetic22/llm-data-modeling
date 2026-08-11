@@ -1,19 +1,12 @@
-/**
- * Pretvara ERA model (entities, relationships) u Mermaid erDiagram sintaksu.
- * @param {object} model - { entities: [...], relationships: [...] }
- * @returns {string} - Mermaid dijagram kao string, spreman za render
- */
 function jsonToMermaid(model) {
   const lines = ['erDiagram'];
 
-  // mapiranje naših tipova kardinalnosti na Mermaid simbole
   const cardinalityMap = {
     "1:1": "||--||",
     "1:N": "||--o{",
     "N:M": "}o--o{"
   };
 
-  // relacije (crte između entiteta)
   model.relationships.forEach((rel) => {
     const symbol = cardinalityMap[rel.type] || "||--||";
     const fromName = rel.from.toUpperCase();

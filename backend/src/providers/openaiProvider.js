@@ -6,11 +6,6 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-/**
- * Generira ERA model iz tekstualnog opisa poslovnog slučaja koristeći OpenAI.
- * @param {string} description - tekstualni opis poslovnog slučaja
- * @returns {Promise<object>} - parsirani ERA model (entities, relationships)
- */
 async function generateModel(description) {
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",

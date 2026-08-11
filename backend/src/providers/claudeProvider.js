@@ -6,11 +6,6 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY
 });
 
-/**
- * Generira ERA model iz tekstualnog opisa poslovnog slučaja koristeći Claude.
- * @param {string} description - tekstualni opis poslovnog slučaja
- * @returns {Promise<object>} - parsirani ERA model (entities, relationships)
- */
 async function generateModel(description) {
   const response = await client.messages.create({
     model: "claude-sonnet-5",
@@ -29,7 +24,6 @@ async function generateModel(description) {
     tool_choice: { type: "tool", name: "return_era_model" }
   });
 
-  // pronađi tool_use blok u odgovoru (Claude može vratiti i tekst uz njega, ali forsirali smo tool_choice pa je ovo dovoljno)
   const toolUseBlock = response.content.find((block) => block.type === "tool_use");
 
   if (!toolUseBlock) {
