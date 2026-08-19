@@ -3,6 +3,7 @@ const router = express.Router();
 const { generateModel } = require('../providers');
 const { jsonToMermaid } = require('../utils/jsonToMermaid');
 const { validateModel } = require('../schema/validate');
+const { normalizeModel } = require('../utils/normalize');
 
 router.post('/generate-model', async (req, res) => {
   const { description, provider } = req.body;
@@ -11,10 +12,11 @@ router.post('/generate-model', async (req, res) => {
     return res.status(400).json({ error: 'Nedostaje opis poslovnog slučaja (description).' });
   }
 
-  const selectedProvider = provider || 'openai'; // openai je default opcija
+  const selectedProvider = provider || 'openai';
 
   try {
-    const model = await generateModel(selectedProvider, description);
+    const rawModel = await generateModel(selectedProvider, description);
+    const model = normalizeModel(rawModel);
 
     const validation = validateModel(model);
     if (!validation.success) {
