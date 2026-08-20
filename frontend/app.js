@@ -2,11 +2,45 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mi
 
 mermaid.initialize({ startOnLoad: false });
 
+// ---- Theme toggle ----
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = themeToggle.querySelector('.theme-icon');
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// ---- Tabs ----
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    tabButtons.forEach((b) => b.classList.remove('active'));
+    tabContents.forEach((c) => c.classList.remove('active'));
+
+    btn.classList.add('active');
+    document.querySelector(`[data-tab-content="${btn.dataset.tab}"]`).classList.add('active');
+  });
+});
+
+// ---- Generiranje modela ----
 const generateBtn = document.getElementById('generateBtn');
 const descriptionInput = document.getElementById('description');
 const providerSelect = document.getElementById('provider');
 const statusDiv = document.getElementById('status');
 const diagramContainer = document.getElementById('diagram-container');
+const relationalSchemaDiv = document.getElementById('relational-schema');
 const jsonOutput = document.getElementById('json-output');
 
 generateBtn.addEventListener('click', async () => {
@@ -19,7 +53,10 @@ generateBtn.addEventListener('click', async () => {
   }
 
   statusDiv.textContent = `Generiram model (${provider})...`;
-  diagramContainer.innerHTML = '';
+  diagramContainer.classList.add('empty-state');
+  diagramContainer.textContent = 'Generiram...';
+  relationalSchemaDiv.classList.add('empty-state');
+  relationalSchemaDiv.textContent = 'Generiram...';
   jsonOutput.textContent = '';
 
   try {
@@ -36,16 +73,21 @@ generateBtn.addEventListener('click', async () => {
 
     const data = await response.json();
 
+    jsonOutput.classList.remove('empty-state');
     jsonOutput.textContent = JSON.stringify(data.model, null, 2);
 
-    document.getElementById('relational-schema').innerHTML = data.relationalText;
-
+    diagramContainer.classList.remove('empty-state');
     const { svg } = await mermaid.render('era-diagram', data.mermaid);
     diagramContainer.innerHTML = svg;
+
+    relationalSchemaDiv.classList.remove('empty-state');
+    relationalSchemaDiv.innerHTML = data.relationalText;
 
     statusDiv.textContent = `Model uspješno generiran (${data.provider}).`;
   } catch (error) {
     console.error(error);
     statusDiv.textContent = `Greška: ${error.message}`;
+    diagramContainer.textContent = 'Došlo je do greške.';
+    relationalSchemaDiv.textContent = 'Došlo je do greške.';
   }
 });
