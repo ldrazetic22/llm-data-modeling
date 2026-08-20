@@ -5,6 +5,7 @@ const { jsonToMermaid } = require('../utils/jsonToMermaid');
 const { validateModel } = require('../schema/validate');
 const { normalizeModel } = require('../utils/normalize');
 const { eraToRelational } = require('../utils/eraToRelational');
+const { relationalToText } = require('../utils/relationalToText');
 
 router.post('/generate-model', async (req, res) => {
   const { description, provider } = req.body;
@@ -29,7 +30,8 @@ router.post('/generate-model', async (req, res) => {
 
     const mermaid = jsonToMermaid(model);
     const relationalSchema = eraToRelational(model);
-    res.json({ model, mermaid, relationalSchema, provider: selectedProvider });
+    const relationalText = relationalToText(relationalSchema);
+    res.json({ model, mermaid, relationalSchema, relationalText, provider: selectedProvider });
   } catch (error) {
     console.error(`Greška pri pozivu ${selectedProvider} providera:`, error);
     res.status(500).json({ error: 'Greška pri generiranju modela.' });

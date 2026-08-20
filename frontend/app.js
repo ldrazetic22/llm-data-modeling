@@ -38,6 +38,8 @@ generateBtn.addEventListener('click', async () => {
 
     jsonOutput.textContent = JSON.stringify(data.model, null, 2);
 
+    document.getElementById('relational-schema').innerHTML = data.relationalText;
+
     const { svg } = await mermaid.render('era-diagram', data.mermaid);
     diagramContainer.innerHTML = svg;
 
