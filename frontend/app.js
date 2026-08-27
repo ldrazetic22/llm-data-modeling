@@ -2,7 +2,16 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mi
 import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0/dist/mermaid-layout-elk.esm.min.mjs';
 
 mermaid.registerLayoutLoaders(elkLayouts);
-mermaid.initialize({ startOnLoad: false, layout: 'elk' });
+mermaid.initialize({
+  startOnLoad: false,
+  layout: 'elk',
+  er: {
+    diagramPadding: 20,
+    entityPadding: 15,
+    minEntityWidth: 100,
+    minEntityHeight: 75
+  }
+});
 
 // ---- Theme toggle ----
 const themeToggle = document.getElementById('themeToggle');
@@ -62,7 +71,7 @@ generateBtn.addEventListener('click', async () => {
   jsonOutput.textContent = '';
 
   try {
-    const response = await fetch('https://llm-data-modeling-backend.onrender.com/api/generate-model', {
+    const response = await fetch('https://llm-data-modeling-backend.onrender.com/api/generate-model', /*'http://localhost:3000/api/generate-model', */{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ description, provider })
