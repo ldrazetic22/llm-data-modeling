@@ -9,6 +9,7 @@ const client = new OpenAI({
 async function generateModel(description) {
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
+    temperature: 0.2,
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: description }
@@ -22,7 +23,14 @@ async function generateModel(description) {
   const rawContent = response.choices[0].message.content;
   const parsed = JSON.parse(rawContent);
 
-  return parsed;
+  return {
+    model: parsed,
+    usage: {
+      inputTokens: response.usage.prompt_tokens,
+      outputTokens: response.usage.completion_tokens,
+      totalTokens: response.usage.total_tokens
+    }
+  };
 }
 
 module.exports = { generateModel };

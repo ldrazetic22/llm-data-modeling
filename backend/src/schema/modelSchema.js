@@ -10,6 +10,7 @@ const modelSchema = {
           type: "object",
           properties: {
             name: { type: "string" },
+            isWeak: { type: "boolean" },
             attributes: {
               type: "array",
               items: {
@@ -27,7 +28,7 @@ const modelSchema = {
               }
             }
           },
-          required: ["name", "attributes"],
+          required: ["name", "isWeak", "attributes"],
           additionalProperties: false
         }
       },

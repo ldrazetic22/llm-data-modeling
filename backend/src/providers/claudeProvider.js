@@ -30,7 +30,14 @@ async function generateModel(description) {
     throw new Error("Claude nije vratio očekivani tool_use odgovor.");
   }
 
-  return toolUseBlock.input;
+  return {
+    model: toolUseBlock.input,
+    usage: {
+      inputTokens: response.usage.input_tokens,
+      outputTokens: response.usage.output_tokens,
+      totalTokens: response.usage.input_tokens + response.usage.output_tokens
+    }
+  };
 }
 
 module.exports = { generateModel };

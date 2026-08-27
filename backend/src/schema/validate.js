@@ -8,6 +8,7 @@ const attributeSchema = z.object({
 
 const entitySchema = z.object({
   name: z.string().min(1, "Naziv entiteta ne smije biti prazan."),
+  isWeak: z.boolean().optional().default(false),
   attributes: z.array(attributeSchema).min(1, "Entitet mora imati barem jedan atribut.")
 }).refine(
   (entity) => entity.attributes.some((attr) => attr.isPK === true),

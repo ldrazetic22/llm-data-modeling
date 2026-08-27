@@ -12,6 +12,7 @@ const geminiResponseSchema = {
         type: "object",
         properties: {
           name: { type: "string" },
+          isWeak: { type: "boolean" },
           attributes: {
             type: "array",
             items: {
@@ -28,7 +29,7 @@ const geminiResponseSchema = {
             }
           }
         },
-        required: ["name", "attributes"]
+        required: ["name", "isWeak", "attributes"]
       }
     },
     relationships: {
@@ -58,12 +59,20 @@ async function generateModel(description) {
     config: {
       systemInstruction: systemPrompt,
       responseMimeType: "application/json",
-      responseSchema: geminiResponseSchema
+      responseSchema: geminiResponseSchema,
+      temperature: 0.2
     }
   });
 
   const parsed = JSON.parse(response.text);
-  return parsed;
+  return {
+    model: parsed,
+    usage: {
+      inputTokens: response.usageMetadata?.promptTokenCount ?? 0,
+      outputTokens: response.usageMetadata?.candidatesTokenCount ?? 0,
+      totalTokens: response.usageMetadata?.totalTokenCount ?? 0
+    }
+  };
 }
 
 module.exports = { generateModel };

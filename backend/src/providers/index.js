@@ -15,7 +15,11 @@ async function generateModel(providerName, description) {
     throw new Error(`Nepoznat provider: "${providerName}". Dostupni: ${Object.keys(providers).join(', ')}`);
   }
 
-  return provider.generateModel(description);
+  const start = Date.now();
+  const { model, usage } = await provider.generateModel(description);
+  const durationMs = Date.now() - start;
+
+  return { model, usage, durationMs };
 }
 
 module.exports = { generateModel, availableProviders: Object.keys(providers) };
