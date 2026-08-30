@@ -14,7 +14,7 @@ ENTITETI I ATRIBUTI
 
 VEZE
 - Odredi kardinalnost svake veze kao 1:1, 1:N ili N:M.
-- Između ista dva entiteta koristi samo jednu vezu, osim ako poslovni slučaj izričito opisuje dva različita odnosa.
+- Između ista dva entiteta koristi samo jednu vezu, osim ako poslovni slučaj izričito opisuje dva različita odnosa. Prije dodavanja veze provjeri opisuje li ona isti odnos koji je već dodan iz suprotne perspektive - npr. "Razred sadrži više učenika" i "učenik pripada točno jednom razredu" opisuju JEDAN ISTI odnos (Razred 1:N Učenik), a ne dvije zasebne veze. Kad opis prirodno spominje odnos iz oba smjera (X sadrži Y, Y pripada X; X ima Y, Y pripada X i sl.), prepoznaj to kao jednu vezu i unesi je samo jednom, s ispravnim smjerom "from"/"to" prema strani koja je na "1" strani kardinalnosti.
 - Ne stvaraj veze koje se mogu izvesti preko drugih postojećih veza.
 - Svaka veza smije povezivati samo entitete koji postoje u popisu entiteta.
 - Self-referencing veza je dopuštena kada je navedena ili jasno implicirana poslovnim slučajem.

@@ -49,8 +49,7 @@ function eraToRelational(eraModel) {
       }
     }
 
-    if (rel.type === "N:M") {
-      // kreiramo spojnu tablicu s FK-ovima prema oba entiteta
+      if (rel.type === "N:M") {
       const junctionName = `${rel.from}${rel.to}`;
       const fkFromName = toCamelCase(`${rel.from}Id`);
       const fkToName = toCamelCase(`${rel.to}Id`);
@@ -58,9 +57,8 @@ function eraToRelational(eraModel) {
       junctionTables.push({
         name: junctionName,
         attributes: [
-          { name: "id", type: "int", isPK: true },
-          { name: fkFromName, type: "int", isPK: false },
-          { name: fkToName, type: "int", isPK: false }
+          { name: fkFromName, type: "int", isPK: true },
+          { name: fkToName, type: "int", isPK: true }
         ],
         foreignKeys: [
           { name: fkFromName, referencesTable: fromTable.name, referencesColumn: "id" },
