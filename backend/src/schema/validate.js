@@ -11,8 +11,8 @@ const entitySchema = z.object({
   isWeak: z.boolean().optional().default(false),
   attributes: z.array(attributeSchema).min(1, "Entitet mora imati barem jedan atribut.")
 }).refine(
-  (entity) => entity.attributes.some((attr) => attr.isPK === true),
-  (entity) => ({ message: `Entitet "${entity.name}" nema definiran primarni ključ (isPK: true).` })
+  (entity) => entity.attributes.filter((attr) => attr.isPK === true).length === 1,
+  (entity) => ({ message: `Entitet "${entity.name}" mora imati točno jedan atribut s isPK: true (pronađeno: ${entity.attributes.filter((attr) => attr.isPK === true).length}).` })
 );
 
 const relationshipSchema = z.object({
